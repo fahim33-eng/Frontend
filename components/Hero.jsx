@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <div className='flex justify-between items-center px-8 py-4'>
       <div>
-        <Link href={'/'} className={`${caveat.className} text-xl font-bold`} ><h1>HealTechBD</h1></Link>
+        <Link href={'/'} className={`${caveat.className} text-2xl font-bold`} ><h1>HealTechBD</h1></Link>
       </div>
       <div className='space-x-4'>
         <Link href='/' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>

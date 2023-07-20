@@ -4,25 +4,33 @@ import { Nunito, Oswald } from 'next/font/google'
 import Lottie from 'lottie-react'
 import doctor from '../components/LottieFiles/landing_page_animation1.json'
 import nurse from '../components/LottieFiles/flying_nurse.json'
+// import anime from '../components/LottieFiles/animation_lkbbltkz.json'
+// import nurse from '../components/LottieFiles/animation_lkbbobaq.json'
+import drugAnime from '../components/LottieFiles/animation_lkbh50ap.json'
+import anime from '../components/LottieFiles/animation_lkbbpjay.json'
+
 const nunito = Nunito({ subsets: ['latin'] })
 const oswald = Oswald({ subsets: ['latin'] })
 import Link from 'next/link'
 import Hero from '@/components/Hero'
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
-
+import { animated, useSpring } from '@react-spring/web'
+import { motion } from "framer-motion"
+import AnimatedText from '@/components/AnimatedText'
 
 export default function Home() {
+
   return (
     <main className="min-h-screen bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
       <nav className='sticky z-50 bg-white'>
         <Hero />
       </nav>
       <div  className='overflow-hidden overscroll-none'>
-        <Parallax pages={6} style={{ top: '0', left: '0' }} >
-          <ParallaxLayer className='flex items-center'>
+        <Parallax pages={5} style={{ top: '0', left: '0' }} >
+          <ParallaxLayer className='flex flex-col items-center'>
             <section className='min-h-screen flex items-center'>
-              <div className='flex justify-between items-center p-16'>
-                <div className='mt-10 max-w-[644px]'>
+              <div className='flex w-full justify-between items-center p-16'>
+                <div className='max-w-[644px]'>
                   <h1 className={`${nunito.className} text-white text-4xl font-bold bg-gradient-to-r from-[#a9e3fa] via-[#a970eb] to-[#d374ff] bg-clip-text text-transparent p-6`}>Your Health, Reimagined :</h1>
                   <h3 className='text-white text-xl px-6 tracking-wide leading-7'>Welcome to our revolutionary healthcare platform, where Cutting-Edge Technology meets Compassionate Care. We believe in reimagining the way healthcare is delivered.Our team of expert doctors and healthcare professionals is dedicated to providing you with personalized and exceptional care.</h3>
                   <div className='flex space-x-6 p-6 items-center'>
@@ -30,63 +38,65 @@ export default function Home() {
                     <button className='bg-black text-white px-6 py-3 rounded-full shadow-md transition-all duration-300 ease-in-out'><Link href="/signup">JOIN US</Link></button>
                   </div>
                 </div>
-                <Lottie className='w-[684px] mt-10' animationData={doctor} />
+                <Lottie className='w-[60%] mt-10' animationData={doctor} />
               </div>
             </section>
-            </ParallaxLayer>
+          </ParallaxLayer>
+          <ParallaxLayer offset={1} factor={1} speed={0.2} style={{ backgroundImage : 'url(/surgeon.jpg)', backgroundSize : 'cover' }} />
           <ParallaxLayer offset={1} speed={.5} >
-            <section className='flex space-x-8 justify-start items-center'>
-              <div className='flex flex-col mt-64 space-y-8 items-center justify-start'>
-                <h1 className={`w-[70%] text-center text-3xl ${oswald.className}` }>"Say goodbye to long waits and hello to hassle-free appointments! Book your doctor's visit with just a click - the fastest way to get the care you need!"</h1>
-                <button className='bg-black mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try Booking An Appointment</Link></button>  
+            <section className='flex space-x-8 mt-16justify-start items-center'>
+              <div className='flex z-100 flex-col space-y-8 items-center justify-start'>
+                <h1 className={`w-[90%] mt-24 z-50 text-white text-center text-5xl ${oswald.className}` }>"Say goodbye to long waits and hello to hassle-free appointments! Book your doctor's visit with just a click - the fastest way to get the care you need!"</h1>
+                <button className='bg-yellow-300 mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try Booking An Appointment</Link></button>  
               </div>
               <div className='w-[60%]'>
                 <span></span>
               </div>
             </section>
           </ParallaxLayer>
-          <ParallaxLayer offset={1} speed={1}>
-            <Image src={'/surgeon.jpg'} alt='Doctor Model' width={"484"} height={"484"} className='ml-auto mr-8 rounded-md'/>
-          </ParallaxLayer>
-          <ParallaxLayer offset={2} speed={1}>
+          <ParallaxLayer offset={2} speed={0.1}  style={{ backgroundImage : 'url(/telemedicine.jpg)', backgroundSize : 'cover' }} />
+          <ParallaxLayer offset={2} speed={.8}>
             <section className='flex justify-end items-start'>
               <div className='w-[50%]'>
                 <span></span>
               </div>
               <div className='flex flex-col space-y-8 w-full justify-end items-center'>
-                <h1 className={`w-[70%] text-center text-3xl ${oswald.className}` }>Experience the Future of Healthcare: Connect with Experienced Doctors from Anywhere! Our online doctor consultations bring the expertise of skilled medical professionals directly to your screen.</h1>
-                <button className='bg-black mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try An Online Consultation</Link></button>  
+                <h1 className={`w-[90%] text-white text-center text-4xl ${oswald.className}` }>Experience the Future of Healthcare: Connect with Experienced Doctors from Anywhere! Our online doctor consultations bring the expertise of skilled medical professionals directly to your screen.</h1>
+                <button className='bg-[#456794] mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try Booking an Appointment</Link></button>  
               </div>
             </section>
           </ParallaxLayer>
-          <ParallaxLayer offset={2} speed={3}>
-            <Image src={'/telemedicine.jpg'} alt='Doctor Model' width={"484"} height={"484"} className='h-auto mt-[-850px] mr-auto ml-8 rounded-md'/>
-          </ParallaxLayer>
-          <ParallaxLayer offset={3} speed={1} >
-            <section className='flex justify-start'>
-              <div className='flex flex-col space-y-8 items-center justify-start'>
-                <h1 className={`w-[70%] text-center text-3xl ${oswald.className}` }>"Say goodbye to long waits and hello to hassle-free appointments! Book your doctor's visit with just a click - the fastest way to get the care you need!"</h1>
-                <button className='bg-black mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try Booking An Appointment</Link></button>  
+          <ParallaxLayer offset={3} factor={1.5} speed={2} style={{ backgroundImage : 'url(/drug.jpg)', backgroundSize : 'cover' }} />
+          <ParallaxLayer offset={3} speed={.5} >
+              <Lottie animationData={drugAnime} className='w-[20%] mx-auto mt-[-100px]'/>   
+            <section className='flex space-x-8 mt-64 justify-start items-center'>
+              <div className='flex z-100 flex-col space-y-8 items-center justify-start'>
+                <h1 className={`w-[90%] z-50 text-white text-center text-5xl ${oswald.className}` }>Embrace the power of technology to have your prescribed medications delivered right to your doorstep, saving you time, effort, and unnecessary trips.</h1>
+                <button className='bg-yellow-500 mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Order Medicine Online</Link></button>  
               </div>
-              <div className='w-[50%]'>
+              <div className='w-[60%]'>
                 <span></span>
               </div>
             </section>
           </ParallaxLayer>
+          <ParallaxLayer offset={4} speed={2} className='mt-[-400px]' factor={2}  style={{ backgroundImage : 'url(/ai.jpg)', backgroundSize : 'cover' }} />
           <ParallaxLayer offset={4} speed={1}>
             <section className='flex justify-end items-start'>
+              <div className='flex flex-col space-y-8 w-full justify-end items-center'>
+                <h1 className={`w-[90%] text-[#fff] mt-[400px] text-center text-4xl ${oswald.className}` }>Our AI Health Consultant utilizes advanced algorithms and vast medical knowledge to provide personalized insights, tailored to your unique needs.</h1>
+                <button className='bg-[#689367] mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try It Out</Link></button>  
+              </div>
               <div className='w-[50%]'>
                 <span></span>
               </div>
-              <div className='flex flex-col space-y-8 w-full justify-end items-center'>
-                <h1 className={`w-[70%] text-center text-3xl ${oswald.className}` }>Experience the Future of Healthcare: Connect with Experienced Doctors from Anywhere! Our online doctor consultations bring the expertise of skilled medical professionals directly to your screen.</h1>
-                <button className='bg-black mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try An Online Consultation</Link></button>  
-              </div>
             </section>
           </ParallaxLayer>
+          
         </Parallax>
       </div>
 
     </main>
   )
 }
+
+
