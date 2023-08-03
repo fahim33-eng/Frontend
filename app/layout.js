@@ -1,6 +1,7 @@
 import Hero from '@/components/Hero'
 import './globals.css'
 import { Montserrat } from 'next/font/google'
+import Footer from '@/components/Footer'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -11,7 +12,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className='overflow-hidden'>
       <body className={montserrat.className}>
         
         {children}

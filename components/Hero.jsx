@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 import { DialogTrigger } from '@radix-ui/react-dialog'
 import { useState } from 'react'
 const caveat = Caveat({ subsets: ['latin'] })
+
 export default function Hero() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -22,17 +23,20 @@ export default function Hero() {
         <Link href={'/'} className={`${caveat.className} text-2xl font-bold`} ><h1>HealTechBD</h1></Link>
       </div>
       <div className='space-x-4'>
-        <Link href='/' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
+        <Link href='/ai' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
           AI Consultation
         </Link>
-        <Link href='/' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
-          Doctor's Serial
+        <Link href='/consultation' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
+          Doctor's Consultation
         </Link>
-        <Link href='/' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
-          Online Consultation
+        <Link href='/diagnosis' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
+          Diagnosis
         </Link>
-        <Link href='/' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
+        <Link href='/medicine' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
           Order Medicine
+        </Link>
+        <Link href='/ambulance' className='hover:outline outline-1 outline-gray-700 py-2 px-4 rounded-lg transition-all .5s'>
+          Ambulance Service
         </Link>
       </div>
       <div className='flex cursor-pointer items-center space-x-8'>
