@@ -1,6 +1,4 @@
 import React from 'react';
-import Slider from 'react-slick';
-import Carousel from 'react-elastic-carousel'
 import UserCard from './UserCard';
 
 const UserCardCarousel = () => {
