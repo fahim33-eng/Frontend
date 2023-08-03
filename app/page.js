@@ -17,16 +17,19 @@ import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import { animated, useSpring } from '@react-spring/web'
 import { motion } from "framer-motion"
 import AnimatedText from '@/components/AnimatedText'
+import Footer from '@/components/Footer'
+import UserCard from '@/components/UserCard'
+import UserCardCarousel from '@/components/UserCardCarousel'
 
 export default function Home() {
 
   return (
-    <main className="min-h-screen bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
+    <main className="relative min-h-screen bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
       <nav className='sticky z-50 bg-white'>
         <Hero />
       </nav>
-      <div  className='overflow-hidden overscroll-none'>
-        <Parallax pages={5} style={{ top: '0', left: '0' }} >
+      <div  className=''>
+        <Parallax pages={6} style={{ top: '0', left: '0' }} >
           <ParallaxLayer className='flex flex-col items-center'>
             <section className='min-h-screen flex items-center'>
               <div className='flex w-full justify-between items-center p-16'>
@@ -47,7 +50,7 @@ export default function Home() {
             <section className='flex space-x-8 mt-16justify-start items-center'>
               <div className='flex z-100 flex-col space-y-8 items-center justify-start'>
                 <h1 className={`w-[90%] mt-24 z-50 text-white text-center text-5xl ${oswald.className}` }>"Say goodbye to long waits and hello to hassle-free appointments! Book your doctor's visit with just a click - the fastest way to get the care you need!"</h1>
-                <button className='bg-yellow-300 mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try Booking An Appointment</Link></button>  
+                <button className='bg-yellow-300 mx-auto rounded-full px-4 py-2'><Link href="/signup">Try Booking An Appointment</Link></button>  
               </div>
               <div className='w-[60%]'>
                 <span></span>
@@ -62,7 +65,7 @@ export default function Home() {
               </div>
               <div className='flex flex-col space-y-8 w-full justify-end items-center'>
                 <h1 className={`w-[90%] text-white text-center text-4xl ${oswald.className}` }>Experience the Future of Healthcare: Connect with Experienced Doctors from Anywhere! Our online doctor consultations bring the expertise of skilled medical professionals directly to your screen.</h1>
-                <button className='bg-[#456794] mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try Booking an Appointment</Link></button>  
+                <button className='bg-[#456794] mx-auto text-white rounded-full px-4 py-2'><Link href="/signup">Try Online Consultation</Link></button>  
               </div>
             </section>
           </ParallaxLayer>
@@ -91,10 +94,12 @@ export default function Home() {
               </div>
             </section>
           </ParallaxLayer>
-          
+          <ParallaxLayer offset={5} speed={3} className='space-y-16 bg-gradient-to-r from-[#40a1ce] to-[#bfecfa] mt-[-1200px] flex flex-col items-center '>
+            <h1 className='text-4xl'>What Users Have Told About Us : </h1> 
+            <UserCardCarousel />
+          </ParallaxLayer>
         </Parallax>
       </div>
-
     </main>
   )
 }
