@@ -1,5 +1,4 @@
 "use client"
-import Carousel from 'react-elastic-carousel'
 import { RiMentalHealthFill, RiHeartPulseLine } from 'react-icons/ri'
 import { TbMedicalCrossOff } from 'react-icons/tb'
 import { FaBrain } from 'react-icons/fa'

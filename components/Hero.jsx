@@ -1,6 +1,5 @@
 "use client"
 import { Caveat } from 'next/font/google'
-import { MenuOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 import { DialogTrigger } from '@radix-ui/react-dialog'
