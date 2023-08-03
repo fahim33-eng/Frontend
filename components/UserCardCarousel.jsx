@@ -32,9 +32,9 @@ const UserCardCarousel = () => {
   ];
 
   return (
-    <Carousel itemsToShow={3}>
-      {users.map(user => <UserCard key={user.id} username={user.userName} text={user.text} image={user.image}/>)}
-    </Carousel>
+    <div className='flex space-x-4'>
+      { users.map(user => <UserCard key={user.id} username={user.userName} text={user.text} image={user.image}/>) }
+    </div>
   );
 };
 
