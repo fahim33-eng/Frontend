@@ -31,7 +31,7 @@ const UserCardCarousel = () => {
 
   return (
     <div className='flex space-x-4'>
-      { users.map(user => <UserCard key={user.id} username={user.userName} text={user.text} image={user.image}/>) }
+      {users.map(user => <UserCard key={user.id} username={user.userName} text={user.text} image={user.image}/>)}
     </div>
   );
 };

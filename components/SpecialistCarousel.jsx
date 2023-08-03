@@ -1,4 +1,5 @@
 "use client"
+import Carousel from 'react-elastic-carousel'
 import { RiMentalHealthFill, RiHeartPulseLine } from 'react-icons/ri'
 import { TbMedicalCrossOff } from 'react-icons/tb'
 import { FaBrain } from 'react-icons/fa'
@@ -11,7 +12,7 @@ export default function SpecialistCarousel() {
     const [specialist, setSpecialist] = useState("");
     console.log(specialist)
   return (
-    <div className='px-24 py-12 flex space-x-6 mx-auto'>
+    <div className='px-24 py-12 flex space-x-4'>
         <div key={1} onClick={e => setSpecialist(e.target.id)} className='flex cursor-pointer flex-col items-center justify-center space-y-4' id='psychiatrist'>
             <RiMentalHealthFill />
             <p className='text-sm'>Psychiatrist</p>
