@@ -1,13 +1,16 @@
 "use client"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { AiFillStar } from "react-icons/ai"
 
 export default function DoctorCard({ id, name, imageUrl, hospital, fee, rating }) {
-  console.log("DoctorCard")
-  console.log(`${id} ${name}`)
+  const router = useRouter()
+  function handleSelectedDoctor(e) {
+    router.push(`/consultation/${id}`)
+  }
   return (
-    <div key={id} className="my-4 cursor-pointer">
+    <div onClick={handleSelectedDoctor} key={id} className="my-4 cursor-pointer">
       <div className="relative w-64 h-64 rounded-md overflow-hidden">
         <Image src={imageUrl} layout="fill" objectFit="cover" alt="Doctor's Image" />
       </div>
