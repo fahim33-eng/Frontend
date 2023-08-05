@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import DoctorCard from './DoctorCard'
-export default function DoctorsList() {
+import DiagnosisContent from './DiagnosisContent'
+
+export default function DiagnosisList() {
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
- 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('https://jsonplaceholder.typicode.com/comments')
       .then((res) => res.json())
       .then((data) => {
         setData(data)
@@ -15,8 +15,8 @@ export default function DoctorsList() {
       })
   }, [])
   return (
-    <div className='grid grid-cols-4 gap-16 my-10'>
-      {data?.map(doctor => <DoctorCard id={doctor.id} rating={5.0} hospital={doctor.address.city} fee={800} name={doctor.name} imageUrl={"/surgeon.jpg"} />)}
+    <div className='flex-1'>
+      {data?.map(diagnosis => <DiagnosisContent diagnosisContent={diagnosis} key={diagnosis.id}/>)}
     </div>
   )
 }

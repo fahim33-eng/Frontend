@@ -9,7 +9,7 @@ export default function page() {
   const [doctorName, setDoctorName] = useState("")
 
   return (
-    <main>
+    <main className="flex flex-col justify-center items-center w-full">
       <nav>
         <CustomHero />
         <SpecialistCarousel />
@@ -18,7 +18,9 @@ export default function page() {
         <input className="py-4 px-12 w-[640px] focus:outline-none border border-1 border-gray-600 rounded-full" type="text" onChange={e => setDoctorName(e.target.value)} placeholder="Search for your favorite doctor here" value={doctorName} />
         <Button variant="default" className="rounded-full">Search</Button>
       </div>
-      <DoctorsList />
+      <div>
+        <DoctorsList />
+      </div>
     </main>
   )
 }
