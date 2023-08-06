@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 import { DialogTrigger } from '@radix-ui/react-dialog'
 import { useState } from 'react'
+import { Button } from './ui/button'
 const caveat = Caveat({ subsets: ['latin'] })
 
-export default function Hero() {
+export default function Hero({ landing = false}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -40,6 +41,9 @@ export default function Hero() {
       </div>
       <div className='flex cursor-pointer items-center space-x-8'>
           <div className='flex space-x-8 items-center'>
+            {landing && 
+              <Link href={"/professional_registration"}><Button className="rounded-full bg-[#40a1ce]">For Professionals</Button></Link>
+            }
             <Dialog className='bg-black text-white py-2 px-4 rounded-full'>
              <DialogTrigger className='bg-black text-white py-2 px-4 rounded-full'>Sign In</DialogTrigger>
               <DialogContent className="p-12">
