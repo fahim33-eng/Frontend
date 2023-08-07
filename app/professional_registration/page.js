@@ -33,7 +33,7 @@ export default function page() {
             </div>
             <Link href="/consultation"><Button className="my-8 rounded-full mx-auto">Sign In</Button></Link>
             <p>New Here ?</p>
-            <p className='underline font-semibold text-sm cursor-pointer my-2'>Create An Account</p>
+            <Link href={"/choose_profession"} className='underline font-semibold text-sm cursor-pointer my-2'>Create An Account</Link>
         </div>
       </div>
     </main>
