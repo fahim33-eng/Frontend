@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
       <nav className='sticky z-50 bg-white'>
-        <Hero />
+        <Hero landing = {true} />
       </nav>
       <div  className=''>
         <Parallax pages={6} style={{ top: '0', left: '0' }} >

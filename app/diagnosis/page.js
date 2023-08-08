@@ -20,7 +20,7 @@ export default function page() {
       <nav className="bg-white">
         <Hero />
       </nav>
-      <CustomHeroForDiagnosis />
+      <CustomHeroForDiagnosis  placeholderText="Search for Diagnosis Type Here"/>
       <div>
         <h1 className="mt-8 px-8 text-2xl">Here are some tests that users frequently search for :</h1>
       </div>
