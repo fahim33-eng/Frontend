@@ -1,7 +1,9 @@
+"use client"
+
 import React, { useEffect, useState } from 'react'
 import MedicineDetail from './MedicineDetail'
 
-export default function MedicineList() {
+export default function MedicineList({ cartItems, setCartItems}) {
    const [data, setData] = useState(null)
    const [isLoading, setLoading] = useState(true)
    useEffect(() => {
@@ -16,7 +18,7 @@ export default function MedicineList() {
   return (
     <div className='flex-1 p-3'>
       {
-        data?.map(medicine => <MedicineDetail medicineDetail={medicine}/>)}
+        data?.map(medicine => <MedicineDetail cartItems = {cartItems} setCartItems = {setCartItems} key={medicine.id} medicineDetail={medicine}/>)}
     </div>
   )
 }

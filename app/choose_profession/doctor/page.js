@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { useState } from "react"
 import { AiOutlineCheck } from "react-icons/ai"
 import { BiSolidUpArrow } from "react-icons/bi"
@@ -13,7 +14,7 @@ export default function page() {
   const [password, setPassword] = useState("")
   const [phone, setPhone] = useState("")
   const [hospitalName, setHospitalName] = useState("")
-  const [selectedCity, setSelectedCity] = useState("")
+  const [selectedCity, setSelectedCity] = useState("dhaka")
   const [degrees, setDegrees] = useState("")
   const [description, setDescription] = useState("")
   const [sundayChecked, setSundayChecked] = useState(false);
@@ -38,7 +39,7 @@ export default function page() {
   const [endAMPM, setEndAMPM] = useState("PM");
   const [startOnlineAMPM, setStartOnlineAMPM] = useState("AM");
   const [endOnlineAMPM, setEndOnlineAMPM] = useState("PM");
-
+  const [image, setImage] = useState(null)
 
   return (
     <main className="min h-screen overflow-y-scroll p-8 flex flex-col items-center bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
@@ -66,7 +67,7 @@ export default function page() {
 
         <div className="space-x-4">
           <label className="my-4 bg-[#f0f0f0] space-x-4 shadow-md rounded-full px-4 py-2 text-gray-500" htmlFor="city">Which City Do You Practice Currently : </label>
-          <select id="city" onChange={e => setSelectedCity(e.target.value)} className="focus:outline-none text-start items-start px-6 py-2 rounded-full" name="city">
+          <select id="city" value={selectedCity} onChange={e => setSelectedCity(e.target.value)} className="focus:outline-none text-start items-start px-6 py-2 rounded-full" name="city">
             <option value="dhaka">Dhaka</option>
             <option value="chittagong">Chittagong</option>
             <option value="khulna">Khulna</option>
@@ -171,7 +172,14 @@ export default function page() {
           </div>
         </div>
       </div>
-      <Button className="text-2xl my-8 px-4 py-2 rounded-full">Submit</Button>
+      <div className='my-4 space-x-4 shadow-md rounded-lg px-4 py-2'>
+          <div className="flex justify-between space-x-8">
+            <label className="font-semibold" htmlFor="imageInput">Upload Your Image Here :</label>
+            <input className='h-full text-start focus:outline-none' onChange={e => setImage(e.target.files[0])} id="imageInput" type="file" placeholder="Upload Your Ambulance Image Here"/>
+            </div>
+          {image && <h1 className="my-4">Your Chosen Image : <img src={URL.createObjectURL(image)} className="h-16 w-16 rounded-md" alt="Preview" /></h1>}
+      </div>
+      <Link href={"/professional_registration"}><Button className="text-2xl my-8 px-4 py-2 rounded-full">Submit</Button></Link>
     </main>
   )
 }

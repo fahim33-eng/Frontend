@@ -3,11 +3,8 @@ import Image from 'next/image'
 import { Nunito, Oswald } from 'next/font/google'
 import Lottie from 'lottie-react'
 import doctor from '../components/LottieFiles/landing_page_animation1.json'
-import nurse from '../components/LottieFiles/flying_nurse.json'
-// import anime from '../components/LottieFiles/animation_lkbbltkz.json'
-// import nurse from '../components/LottieFiles/animation_lkbbobaq.json'
 import drugAnime from '../components/LottieFiles/animation_lkbh50ap.json'
-import anime from '../components/LottieFiles/animation_lkbbpjay.json'
+
 
 const nunito = Nunito({ subsets: ['latin'] })
 const oswald = Oswald({ subsets: ['latin'] })

@@ -2,6 +2,7 @@ import Hero from '@/components/Hero'
 import './globals.css'
 import { Montserrat } from 'next/font/google'
 import Footer from '@/components/Footer'
+import RecoilProvider from '@/components/RecoilProvider'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -12,10 +13,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className=''>
-      <body className={montserrat.className}>
-        {children}
-        </body>
-    </html>
+    <RecoilProvider>
+      <html lang="en" className=''>
+        <body className={montserrat.className}>
+          {children}
+          </body>
+      </html>
+    </RecoilProvider>
   )
 }
