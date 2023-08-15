@@ -28,7 +28,7 @@ const getTimeDifference = (eventTime) => {
 export default function UserEventCard({ userEvent, id }) {
   
   return (
-    <div className='p-3 text-white rounded-md bg-gradient-to-r from-[#103153] to-[#103153]'>
+    <div className='p-3 text-white rounded-md bg-gradient-to-r from-[#103153] to-[#103153] z-0'>
       <div className='flex justify-between items-center'>
         <Link href={`/video/${id}`}><Button disabled = {getTimeDifference(userEvent.time) > 0} className={`${getTimeDifference(userEvent.time) > 0 ? "bg-[#bbbbbb] text-black" : "bg-[#7bff00]"} hover:bg-[#478b08] text-black font-bold `}>Join Meeting</Button></Link>
         <div className='flex space-x-3 items-center'>

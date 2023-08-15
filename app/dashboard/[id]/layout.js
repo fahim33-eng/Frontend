@@ -10,7 +10,6 @@ GiMoneyStack
 
 export default function RootLayout({ params, children }) {
   const [currentState, setCurrentState] = useState("upcoming")
-  
   return (
     <main>
       <nav>
@@ -22,7 +21,7 @@ export default function RootLayout({ params, children }) {
             <Image src={"/surgeon.jpg"} layout="fill" objectFit="cover" alt="Doctor's Image" />
           </div>
           <h1 className='text-xl text-white my-4'>Hi, John!</h1>
-          <p className='text-lg'>Balance : <span className='font-bold underline text-xl'>2000</span> BDT <Button className="rounded-full bg-[#25b6c9]">Recharge <GiMoneyStack className='ml-4 text-white' /></Button></p>
+          <p className='text-lg'>Balance : <span className='font-bold underline text-xl'>2000</span> BDT <Link href={`/transaction/${params.id}?type=Recharge`}><Button className="rounded-full bg-[#25b6c9]">Recharge <GiMoneyStack className='ml-4 text-white' /></Button></Link></p>
           <div onClick={() => setCurrentState("cart")} className={`${currentState == 'cart' && "bg-white text-black"} flex py-4 border-b border-b-[#f0f0f0] cursor-pointer justify-between px-8 mt-8 w-full items-center`}>
               <Link className='h-full w-full' href={`/dashboard/${params.id}/cart`}>Go To Cart</Link>
               <AiOutlineArrowRight />

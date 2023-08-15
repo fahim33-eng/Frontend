@@ -31,17 +31,17 @@ export default function DashBoardHero({ landing = false}) {
         </Link>
       </div>
       <div>
-      <DropdownMenu>
-        <DropdownMenuTrigger className='focus:outline-none outline-none border-none'>
-          <div className='flex space-x-2 focus:outline-none outline-none border-none'>
+      <DropdownMenu className="z-50 bg-white">
+        <DropdownMenuTrigger className='focus:outline-none outline-none border-none bg-white'>
+          <div className='flex space-x-2 focus:outline-none outline-none border-none z-50'>
             <p>Menu</p>
             <AiOutlineMenu className='text-2xl' />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className=''>
-          <DropdownMenuItem className='p-2 my-4 cursor-pointer'>My DashBoard</DropdownMenuItem>
+        <DropdownMenuContent className='z-50 bg-white'>
+          <DropdownMenuItem className='p-2 my-4 cursor-pointer z-50'>My DashBoard</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className='p-2 my-4 cursor-pointer'>Sign Out</DropdownMenuItem>
+          <DropdownMenuItem className='p-2 my-4 cursor-pointer z-50'>Sign Out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 

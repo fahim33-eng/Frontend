@@ -18,7 +18,7 @@ export default function ReviewCard({ review }) {
             </div>
         </div>
       </div>
-      <h1 className='text-gray-500 mt-4 px-4'>"{review.body}"</h1>
+      <h1 className='text-gray-500 mt-4 px-4'>"{review.name}"</h1>
     </div>
   )
 }
