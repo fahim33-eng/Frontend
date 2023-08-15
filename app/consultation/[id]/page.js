@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react"
 import { BsFillCameraVideoFill } from 'react-icons/bs' 
 import { TbCircleLetterH } from 'react-icons/tb'
 import { GiNotebook } from 'react-icons/gi' 
+import ReviewList from "@/components/ReviewList"
 export default function page({ params }) {
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
@@ -20,7 +21,7 @@ export default function page({ params }) {
     })
 }, [])
   return (
-    <main className="relative min-h-screen bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
+    <main className="h-full bg-gradient-to-r from-[#40a1ce] to-[#bfecfa] overflow-auto">
       <nav className="bg-white">
         <Hero />
       </nav>
@@ -41,6 +42,11 @@ export default function page({ params }) {
           <Image src={"/surgeon.jpg"} layout="fill" objectFit="cover" alt="Doctor's Image" />
         </div>
       </div>
+      
+      <h1 className="px-3 py-2 mx-auto text-white text-5xl font-bold underline my-8 rounded-full text-center">Reviews</h1>
+      
+      <ReviewList id={params.id} />
+      
     </main>
   )
 }
