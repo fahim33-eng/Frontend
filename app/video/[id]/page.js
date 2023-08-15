@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div>
+    <div className='bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]'>
       <VideoRoom />
     </div>
   )
