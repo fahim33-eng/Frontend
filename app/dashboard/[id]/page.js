@@ -1,7 +1,7 @@
 "use client"
 import UserEventCard from "@/components/UserEventCard"
 
-export default function page() {
+export default function page({ params }) {
   const data = [
     {
         id : 1,
@@ -18,12 +18,10 @@ export default function page() {
         time : new Date(2023, 7, 9, 22, 33).getTime(),
     }
   ]
-  
-
   return (
     <div className="grid grid-cols-2 gap-16 my-10">
       {
-        data.map(userEvent => <UserEventCard userEvent={userEvent} />)
+        data.map(userEvent => <UserEventCard userEvent={userEvent} id={params.id} />)
       }
     </div>
   )

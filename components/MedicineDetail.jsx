@@ -10,8 +10,16 @@ export default function MedicineDetail({ medicineDetail, cartItems, setCartItems
 
     function handleAddToCart() {
         if(!buttonClicked) {
-            setCartItems([...cartItems, medicineDetail])
+            if(number > 0) {
+                const price = medicineDetail.id * number
+                setCartItems([...cartItems, {...medicineDetail, number, price}])
+            }
         }
+        else {
+            
+            setCartItems(cartItems.filter(item => item.id != medicineDetail.id))
+        }
+        setButtonClicked(prev => !prev)
     }
   return (
     <div key={medicineDetail.id} className='flex justify-between items-center p-4 shadow-xl rounded-lg'>
@@ -29,8 +37,7 @@ export default function MedicineDetail({ medicineDetail, cartItems, setCartItems
         </div>
         <div className='space-y-2 flex flex-col items-center justify-center'>
             <h1>Total : <span className='font-bold text-lg'>{number * medicineDetail.id}</span> BDT</h1>
-            <Button onClick={() => {
-                setButtonClicked(prev => !prev)
+            <Button disabled={number == 0} onClick={() => {
                 handleAddToCart()
             }} className={`${!buttonClicked ? "bg-[#2699b6]" : "bg-[#803131]"} w-48`}>{buttonClicked ? "Remove From Cart" : "Add To Cart"}</Button>
         </div>

@@ -12,6 +12,25 @@ export default function page() {
   const [password, setPassword] = useState("")
   const [phone, setPhone] = useState("")
   const [image, setImage] = useState(null)
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const data = {
+      firstName,
+      lastName,
+      email,
+      password,
+      contactNo : phone
+    }
+    const endpoint = 'http://localhost:8080'
+    const response = await fetch(`${endpoint}/signup`, {
+      method: 'POST',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(data)
+    })
+    
+    const ans = await response.json()
+    console.log(ans)
+  }
   return (
     <main className="min-h-screen w-full flex justify-start">
       <div className="flex flex-col h-screen w-[55%] items-center p-16 bg-gradient-to-r from-[#40a1ce] to-[#175d72]">
@@ -44,7 +63,7 @@ export default function page() {
         </form>
       </div>
       
-        <button className="bg-black mt-4 text-white px-6 py-2 rounded-full shadow-md mx-auto" type="submit">Submit</button>
+        <button onClick={handleSubmit} className="bg-black mt-4 text-white px-6 py-2 rounded-full shadow-md mx-auto">Submit</button>
       </div>
       <div className="flex items-center justify-center w-[50%]">
         <Lottie className=" h-screen items-center w-full" animationData={doctor} />

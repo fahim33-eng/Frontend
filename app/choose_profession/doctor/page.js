@@ -6,8 +6,10 @@ import { useState } from "react"
 import { AiOutlineCheck } from "react-icons/ai"
 import { BiSolidUpArrow } from "react-icons/bi"
 import { BiSolidDownArrow } from "react-icons/bi"
+import { useRouter } from 'next/navigation'
 
 export default function page() {
+  const router = useRouter()
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -40,6 +42,42 @@ export default function page() {
   const [startOnlineAMPM, setStartOnlineAMPM] = useState("AM");
   const [endOnlineAMPM, setEndOnlineAMPM] = useState("PM");
   const [image, setImage] = useState(null)
+
+  async function handleSubmit(e) {
+    let selectedDays = []
+    if (sundayChecked) selectedDates.push("Sunday");
+    if (mondayChecked) selectedDates.push("Monday");
+    if (tuesdayChecked) selectedDates.push("Tuesday");
+    if (wednesdayChecked) selectedDates.push("Wednesday");
+    if (thursdayChecked) selectedDates.push("Thursday");
+    if (fridayChecked) selectedDates.push("Friday");
+    if (saturdayChecked) selectedDates.push("Saturday");
+
+    e.preventDefault()
+    const data = {
+      firstName,
+      lastName,
+      email,
+      password,
+      contactNo : phone,
+      place : selectedCity,
+      currentHospital : hospitalName,
+      degrees : [degrees],
+      bio : description,
+      availableDays : selectedDays,
+      availableTimes : []
+
+    }
+    const endpoint = 'http://localhost:8080'
+    const response = await fetch(`${endpoint}/doctor_registration`, {
+      method: 'POST',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(data)
+    })
+    
+    const ans = await response.json()
+    console.log(ans)
+  }
 
   return (
     <main className="min h-screen overflow-y-scroll p-8 flex flex-col items-center bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
@@ -179,7 +217,8 @@ export default function page() {
             </div>
           {image && <h1 className="my-4">Your Chosen Image : <img src={URL.createObjectURL(image)} className="h-16 w-16 rounded-md" alt="Preview" /></h1>}
       </div>
-      <Link href={"/professional_registration"}><Button className="text-2xl my-8 px-4 py-2 rounded-full">Submit</Button></Link>
+      <button onClick={handleSubmit} className="bg-black mt-4 text-white px-6 py-2 rounded-full shadow-md mx-auto">Submit</button>
+      
     </main>
   )
 }

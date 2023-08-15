@@ -3,6 +3,7 @@ import { FiClock } from 'react-icons/fi'
 import { CiLocationOn } from 'react-icons/ci'
 import { BiSolidTimer } from 'react-icons/bi'
 import { Button } from './ui/button'
+import Link from 'next/link'
 BiSolidTimer
 
 
@@ -24,12 +25,12 @@ const getTimeDifference = (eventTime) => {
 };
 
 
-export default function UserEventCard({ userEvent }) {
-
+export default function UserEventCard({ userEvent, id }) {
+  
   return (
     <div className='p-3 text-white rounded-md bg-gradient-to-r from-[#103153] to-[#103153]'>
       <div className='flex justify-between items-center'>
-        <Button disabled = {getTimeDifference(userEvent.time) > 0} className={`${getTimeDifference(userEvent.time) > 0 ? "bg-[#bbbbbb] text-black" : "bg-[#7bff00]"} hover:bg-[#478b08] text-black font-bold `}>Join Meeting</Button>
+        <Link href={`/video/${id}`}><Button disabled = {getTimeDifference(userEvent.time) > 0} className={`${getTimeDifference(userEvent.time) > 0 ? "bg-[#bbbbbb] text-black" : "bg-[#7bff00]"} hover:bg-[#478b08] text-black font-bold `}>Join Meeting</Button></Link>
         <div className='flex space-x-3 items-center'>
             <FiClock />
             <h1 className='font-semibold text-lg'>{getTimeFormatted(userEvent.time)}</h1>
