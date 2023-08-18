@@ -19,7 +19,7 @@ export default function VideoRoom() {
             setUsers(prev => [...prev, user])
         }
         if(mediaType === 'audio') {
-            user.audioTrack?.play()
+            // user.audioTrack.play()
         }
     }
     function handleUserLeft(user) {
@@ -28,7 +28,7 @@ export default function VideoRoom() {
     useEffect(() => {
         client.on('user-published', handleUserJoined)
         client.on('user-left', handleUserLeft)
-        
+
         async function setupLocalTracks() {
             try {
               const uid = await client.join(APP_ID, channel, APP_TOKEN, null);
@@ -37,8 +37,7 @@ export default function VideoRoom() {
               try {
                 tracks = await AgoraRTC.createMicrophoneAndCameraTracks();
               } catch (e) {
-                console.log("Error creating tracks:", e);
-                setError("No camera or microphone detected.");
+                console.log("Error creating tracks:");
                 return;
               }
       
@@ -68,7 +67,7 @@ export default function VideoRoom() {
         }
     }, [])
     return (
-        <div className='flex items-center justify-center space-x-4 rounded-md w-72 h-72'>
+        <div className='flex items-center justify-center space-x-4 rounded-md w-96 h-96'>
         {
             users.map(user => <VideoPlayer key={user.uid} user={user} />)
         }
