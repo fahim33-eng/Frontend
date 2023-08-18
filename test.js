@@ -1,78 +1,77 @@
-"use client"
-import AgoraRTC from 'agora-rtc-sdk-ng'
 import React, { useEffect, useState } from 'react'
-import VideoPlayer from './VideoPlayer'
+import { config, useClient, useMicrophoneAndCameraTracks, channelName } from './AgoraSettings';
+import VideoPlayer from './VideoPlayer';
+import VideoControls from './VideoControls';
 
-export default function VideoRoom() {
-    const APP_ID = "5df7d63fb30642108563623d6fbd3969"
-    const APP_TOKEN = process.env.NEXT_PUBLIC_APP_TOKEN
-    const channel = "channel1"
-    const [users, setUsers] = useState([])
-    const [localTracks, setLocalTracks] = useState([])
-    const client = AgoraRTC.createClient({
-        mode : 'rtc',
-        codec : 'vp8'
-    }) 
-    async function handleUserJoined(user, mediaType) {
-        await client.subscribe(user, mediaType)
-        if(mediaType === 'video') {
-            setUsers(prev => [...prev, user])
-        }
-        if(mediaType === 'audio') {
-            user.audioTrack.play()
-        }
-    }
-    function handleUserLeft(user) {
-        setUsers(users => users.filter(u => u.uid != user.uid))
-    }
-    useEffect(() => {
-        client.on('user-published', handleUserJoined)
-        client.on('user-left', handleUserLeft)
+export default function VideoCall(props) {
+  const { setInCall } = props;
+  const [users, setUsers] = useState([]);
+  const [start, setStart] = useState(false);
+  const client = useClient();
+  const { ready, tracks } = useMicrophoneAndCameraTracks();
 
-        async function setupLocalTracks() {
-            try {
-              const uid = await client.join(APP_ID, channel, APP_TOKEN, null);
-              let tracks;
-      
-              try {
-                tracks = await AgoraRTC.createMicrophoneAndCameraTracks();
-              } catch (e) {
-                console.log("Error creating tracks:");
-                return;
-              }
-      
-              const [audioTrack, videoTrack] = tracks;
-              setLocalTracks(tracks);
-              setUsers(prevUsers => [...prevUsers, { uid, videoTrack, audioTrack }]);
-              client.publish(tracks);
-            } catch (error) {
-              console.log("Error:", error);
-            }
-          }
-      
-        try {
-            setupLocalTracks();
+  useEffect(() => {
+    let init = async (name) => {
+      client.on("user-published", async (user, mediaType) => {
+        await client.subscribe(user, mediaType);
+        if (mediaType === "video") {
+          setUsers((prevUsers) => {
+            return [...prevUsers, user];
+          });
         }
-        catch(error) {
-            console.log("Add Microphone and Web Cam")
+        if (mediaType === "audio") {
+          user.audioTrack.play();
         }
-        return () => {
-            for(let localTrack of localTracks) {
-                localTrack.stop()
-                localTrack.close()
-            }
-            client.off('user-published', handleUserJoined)
-            client.off('user-left', handleUserLeft)
-            client.unpublish(localTracks).then(() => client.leave())
+      });
+
+      client.on("user-unpublished", (user, mediaType) => {
+        if (mediaType === "audio") {
+          if (user.audioTrack) user.audioTrack.stop();
         }
-    }, [])
-    return (
-        <div className='flex items-center justify-center space-x-4 rounded-md w-96 h-96'>
-        {
-            users.map(user => <VideoPlayer key={user.uid} user={user} />)
+        if (mediaType === "video") {
+          setUsers((prevUsers) => {
+            return prevUsers.filter((User) => User.uid !== user.uid);
+          });
         }
-        </div>
-    )
+      });
+
+      client.on("user-left", (user) => {
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => User.uid !== user.uid);
+        });
+      });
+
+      try {
+        await client.join(config.appId, name, config.token, null);
+      } catch (error) {
+        console.log("error");
+      }
+
+      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      setStart(true);
+    };
+
+    if (ready && tracks) {
+      try {
+        init(channelName);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [channelName, client, ready, tracks]);
+
+  return (
+    <div className='h-[100%] flex flex-col w-[100%]'>
+      <div style={{ height: "15%" }}>
+        {ready && tracks && (
+          <VideoControls tracks={tracks} setStart={setStart} setInCall={setInCall} />
+        )}
+      </div>
+      <div style={{ height: "85%" }}>
+        {start && tracks && <VideoPlayer tracks={tracks} users={users} />}
+      </div>
+    </div>
+  );
 }
 
 
@@ -81,20 +80,37 @@ export default function VideoRoom() {
 
 
 
-"use client"
-import React, { useEffect, useRef } from 'react'
 
-export default function VideoPlayer({ user }) {
-  if(window !== undefined) {
-    const userRef = useRef()
-    useEffect(() => {
-        user?.videoTrack.play(userRef.current)
-        user?.audioTrack.play(userRef.current)
-    }, [])
-  }
+
+
+import { AgoraVideoPlayer } from "agora-rtc-react";
+
+export default function VideoPlayer(props) {
+  const { users, tracks } = props;
+
   return (
-    <div ref={userRef} className='h-full w-full rounded-md'>
-        
+    <div className="flex h-screen w-full">
+      <div className=" gap-4 w-full h-screen">
+        <AgoraVideoPlayer
+          videoTrack={tracks[1]}
+          style={{ height: "100%", width: "100%" }}
+          className="h-[100%] w-[100%]"
+        />
+      </div>
+      {users.length > 0 &&
+        users.map((user) => {
+          if (user.videoTrack) {
+            return (
+              <div className="gap-4 w-full h-full">
+                <AgoraVideoPlayer
+                  videoTrack={user.videoTrack}
+                  key={user.uid}
+                  style={{ height: "100%", width: "100%" }}
+                />
+              </div>
+            );
+          } else return null;
+        })}
     </div>
-  )
+  );
 }
