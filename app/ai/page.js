@@ -23,12 +23,13 @@ export default function page() {
   async function handleSubmit(e) {
       const newMessage = { id, content: messageContent, owner: "owner" };
       setMessages(prevMessages => [...prevMessages, newMessage])
+      resetTranscript()
+      setMessageContent("");
       const response = await fetch(url, {
         method : "GET"
       })
       if (response.ok) {
         let answer = await response.json()
-        setMessageContent("");
         answer = answer["message"]
         setMessages(prevMessages => [...prevMessages, {id, content: answer, owner: "ai"} ])
       } else {
@@ -36,18 +37,17 @@ export default function page() {
       }
     }
     
-  async function micHandler() {
+  function micHandler() {
     setMicOn(prev => !prev)
+  }
+  useEffect(() => {
     if(micOn) SpeechRecognition.startListening({ continuous : true})
     else {
       SpeechRecognition.stopListening()
       setMessageContent(transcript)
       resetTranscript()
     }
-  }
-  useEffect(() => {
-    console.log(transcript)
-  }, [transcript])
+  }, [transcript, micOn])
   
   return (
     <main className="min-h-screen flex flex-col w-full bg-contain bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
