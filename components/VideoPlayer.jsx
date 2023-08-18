@@ -1,19 +1,31 @@
-"use client"
-import React, { useEffect, useRef } from 'react'
+import { AgoraVideoPlayer } from "agora-rtc-react";
 
-export default function VideoPlayer({ user }) {
-  if(window !== undefined) {
-    const userRef = useRef()
-    useEffect(() => {
-        user?.videoTrack.play(userRef.current)
-        user?.audioTrack.play(userRef.current)
-    }, [])
-  }
+export default function VideoPlayer(props) {
+  const { users, tracks } = props;
+
   return (
-    <div ref={userRef} className='h-full w-full rounded-md'>
-        
+    <div className="flex h-screen w-full">
+      <div className=" gap-4 w-full h-screen">
+        <AgoraVideoPlayer
+          videoTrack={tracks[1]}
+          style={{ height: "100%", width: "100%" }}
+          className="h-[100%] w-[100%]"
+        />
+      </div>
+      {users.length > 0 &&
+        users.map((user) => {
+          if (user.videoTrack) {
+            return (
+              <div className="gap-4 w-full h-full">
+                <AgoraVideoPlayer
+                  videoTrack={user.videoTrack}
+                  key={user.uid}
+                  style={{ height: "100%", width: "100%" }}
+                />
+              </div>
+            );
+          } else return null;
+        })}
     </div>
-  )
+  );
 }
-
-
