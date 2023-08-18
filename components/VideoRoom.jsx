@@ -19,7 +19,7 @@ export default function VideoRoom() {
             setUsers(prev => [...prev, user])
         }
         if(mediaType === 'audio') {
-            // user.audioTrack.play()
+            user.audioTrack.play()
         }
     }
     function handleUserLeft(user) {
