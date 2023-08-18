@@ -37,15 +37,15 @@ export default function page() {
       }
     }
     
-  function micHandler() {
+  async function micHandler() {
     setMicOn(prev => !prev)
+    console.log(micOn)
   }
   useEffect(() => {
     if(micOn) SpeechRecognition.startListening({ continuous : true})
     else {
       SpeechRecognition.stopListening()
       setMessageContent(transcript)
-      resetTranscript()
     }
   }, [transcript, micOn])
   
