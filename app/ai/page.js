@@ -3,7 +3,7 @@ import regeneratorRuntime from "regenerator-runtime"
 import Hero from "@/components/Hero";
 import Messages from "@/components/Messages";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiMicrophoneDuotone, PiMicrophoneFill } from 'react-icons/pi' 
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
@@ -23,12 +23,13 @@ export default function page() {
   async function handleSubmit(e) {
       const newMessage = { id, content: messageContent, owner: "owner" };
       setMessages(prevMessages => [...prevMessages, newMessage])
+      resetTranscript()
+      setMessageContent("");
       const response = await fetch(url, {
         method : "GET"
       })
       if (response.ok) {
         let answer = await response.json()
-        setMessageContent("");
         answer = answer["message"]
         setMessages(prevMessages => [...prevMessages, {id, content: answer, owner: "ai"} ])
       } else {
@@ -36,15 +37,17 @@ export default function page() {
       }
     }
     
-  async function micHandler() {
-    setMicOn(prev => prev === true ? false : true)
-    if(micOn) await SpeechRecognition.startListening({ continuous : true})
+  function micHandler() {
+    setMicOn(prev => !prev)
+  }
+  useEffect(() => {
+    if(micOn) SpeechRecognition.startListening({ continuous : true})
     else {
-      await SpeechRecognition.stopListening()
+      SpeechRecognition.stopListening()
       setMessageContent(transcript)
       resetTranscript()
     }
-  }
+  }, [transcript, micOn])
   
   return (
     <main className="min-h-screen flex flex-col w-full bg-contain bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
@@ -55,7 +58,7 @@ export default function page() {
         <div className="w-[58rem] min-h-[90%] h-[38rem] rounded-xl bg-gradient-to-r from-[#4e4e4e] via-[#44444e] to-[#4e4a4a]">
           <Messages messages={messages}/>
           <div className="flex w-full justify-center items-center space-x-4">
-            <input type="text" value={messageContent} onChange={e => setMessageContent(e.target.value)} placeholder={transcript} className="h-[3rem] z-10 overflow-wrap px-4 w-[80%] focus:outline-none bg-transparent text-white text-xl placeholder:text-gray-400 border border-white rounded-full" />
+            <input type="text" value={messageContent} onChange={e => setMessageContent(e.target.value)} placeholder={transcript ? transcript : "Enter Your Message Here"} className="h-[3rem] z-10 overflow-wrap px-4 w-[80%] focus:outline-none bg-transparent text-white text-xl placeholder:text-gray-400 border border-white rounded-full" />
             <div className="flex space-x-3 items-center text-5xl">
               <div>{ micOn ? <PiMicrophoneFill onClick={micHandler} className="cursor-pointer bg-[#32d8d8] rounded-full p-2 text-white"/> : <PiMicrophoneDuotone onClick={micHandler} className='cursor-pointer text-center p-2'/> } </div>
               <Button onClick={handleSubmit} className="rounded-full">Send</Button>
