@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { config, useClient, useMicrophoneAndCameraTracks, channelName } from './AgoraSettings';
 import VideoPlayer from './VideoPlayer';
-import VideoControls from './VideoControls';
+import VideoControls from './VideoControls'
 
 export default function VideoCall(props) {
   const { setInCall } = props;
