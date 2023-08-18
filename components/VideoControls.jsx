@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useClient } from "./AgoraSettings";
-import { Grid, Button } from "@material-ui/core";
-import MicIcon from "@material-ui/icons/Mic";
-import MicOffIcon from "@material-ui/icons/MicOff";
-import VideocamIcon from "@material-ui/icons/Videocam";
-import VideocamOffIcon from "@material-ui/icons/VideocamOff";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { BsMic, BsMicMute, BsCameraVideoOff, BsCameraVideo } from 'react-icons/bs'
+import { RxExit } from 'react-icons/rx'
+import { Button } from "./ui/button";
+
 
 export default function VideoControls(props) {
   const client = useClient();
@@ -36,35 +34,31 @@ export default function VideoControls(props) {
   };
 
   return (
-    <Grid container spacing={2} alignItems="center">
-      <Grid item>
+    <div className="flex space-x-4 align-items-center">
+      <div>
         <Button
-          variant="contained"
           color={trackState.audio ? "primary" : "secondary"}
           onClick={() => mute("audio")}
         >
-          {trackState.audio ? <MicIcon /> : <MicOffIcon />}
+          {trackState.audio ? <BsMic /> : <BsMicMute />}
         </Button>
-      </Grid>
-      <Grid item>
+      </div>
+      <div>
         <Button
-          variant="contained"
           color={trackState.video ? "primary" : "secondary"}
           onClick={() => mute("video")}
         >
-          {trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}
+          {trackState.video ? <BsCameraVideo /> : <BsCameraVideoOff />}
         </Button>
-      </Grid>
-      <Grid item>
+      </div>
+      <div className="flex items-center space-x-3">
         <Button
-          variant="contained"
-          color="default"
           onClick={() => leaveChannel()}
         >
           Leave
-          <ExitToAppIcon />
+          <RxExit />
         </Button>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 }

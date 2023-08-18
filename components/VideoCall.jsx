@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { config, useClient, useMicrophoneAndCameraTracks, channelName } from './AgoraSettings';
-import { Grid } from "@material-ui/core";
 import VideoPlayer from './VideoPlayer';
 import VideoControls from './VideoControls';
 
@@ -62,15 +61,15 @@ export default function VideoCall(props) {
   }, [channelName, client, ready, tracks]);
 
   return (
-    <Grid container direction="column" style={{ height: "100%" }}>
-      <Grid item style={{ height: "5%" }}>
+    <div className='h-[100%] flex flex-col'>
+      <div style={{ height: "5%" }}>
         {ready && tracks && (
           <VideoControls tracks={tracks} setStart={setStart} setInCall={setInCall} />
         )}
-      </Grid>
-      <Grid item style={{ height: "95%" }}>
+      </div>
+      <div style={{ height: "95%" }}>
         {start && tracks && <VideoPlayer tracks={tracks} users={users} />}
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 }

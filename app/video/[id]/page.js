@@ -1,6 +1,6 @@
 "use client"
 import VideoCall from '@/components/VideoCall';
-import { Button } from '@material-ui/core';
+import { Button } from '@/components/ui/button';
 import React, { useState } from 'react'
 
 export default function page() {
@@ -12,10 +12,8 @@ export default function page() {
         <VideoCall setInCall={setInCall} />
       ) : (
         <Button
-          variant="contained"
-          color="primary"
           onClick={() => setInCall(true)}
-          className='text-3xl'
+          className='text-3xl rounded-full'
         >
           Join Call
         </Button>
