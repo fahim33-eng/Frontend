@@ -3,7 +3,7 @@ import regeneratorRuntime from "regenerator-runtime"
 import Hero from "@/components/Hero";
 import Messages from "@/components/Messages";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiMicrophoneDuotone, PiMicrophoneFill } from 'react-icons/pi' 
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
@@ -42,9 +42,13 @@ export default function page() {
     else {
       SpeechRecognition.stopListening()
       setMessageContent(transcript)
+      
       resetTranscript()
     }
   }
+  useEffect(() => {
+    console.log(transcript)
+  }, [transcript])
   
   return (
     <main className="min-h-screen flex flex-col w-full bg-contain bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
