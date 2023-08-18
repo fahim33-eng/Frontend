@@ -61,13 +61,13 @@ export default function VideoCall(props) {
   }, [channelName, client, ready, tracks]);
 
   return (
-    <div className='h-[100%] flex flex-col'>
-      <div style={{ height: "5%" }}>
+    <div className='h-[100%] flex flex-col w-[100%]'>
+      <div style={{ height: "15%" }}>
         {ready && tracks && (
           <VideoControls tracks={tracks} setStart={setStart} setInCall={setInCall} />
         )}
       </div>
-      <div style={{ height: "95%" }}>
+      <div style={{ height: "85%" }}>
         {start && tracks && <VideoPlayer tracks={tracks} users={users} />}
       </div>
     </div>
