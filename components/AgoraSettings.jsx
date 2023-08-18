@@ -1,4 +1,5 @@
 import { createClient, createMicrophoneAndCameraTracks } from 'agora-rtc-react'
+// config for agora
 
 export const config = {mode : 'rtc', codec : 'vp8', appId : process.env.NEXT_PUBLIC_AGORA_APP_ID, token : process.env.NEXT_PUBLIC_AGORA_TOKEN }
 export const useClient = createClient(config)
