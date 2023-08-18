@@ -37,12 +37,12 @@ export default function page() {
     }
     
   async function micHandler() {
-    setMicOn(prev => prev === true ? false : true)
+    setMicOn(prev => !prev)
     if(micOn) SpeechRecognition.startListening({ continuous : true})
     else {
       SpeechRecognition.stopListening()
       setMessageContent(transcript)
-      // resetTranscript()
+      resetTranscript()
     }
   }
   
