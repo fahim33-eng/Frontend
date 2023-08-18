@@ -5,7 +5,7 @@ import VideoPlayer from './VideoPlayer'
 
 export default function VideoRoom() {
     const APP_ID = "5df7d63fb30642108563623d6fbd3969"
-    const APP_TOKEN = "007eJxTYEjk2pgd8frk0trn2uz+1QtqfcJO1Qebbl1cy+WwZH04r4ECg2lKmnmKmXFakrGBmYmRoYGFqZmxmZFxillaUoqxpZllU8HtlIZARoaG6neMjAwQCOJzMCRnJOblpeYYMjAAAFzYH4E="
+    const APP_TOKEN = "007eJxTYCj8wq116ulU/YndW27NejXhc0DBo6IJ3JvDw/iPNNX8+n1AgcE0Jc08xcw4LcnYwMzEyNDAwtTM2MzIOMUsLSnF2NLM0iX8fkpDICPDQ5EdTIwMEAjiczAkZyTm5aXmGDIwAACdcCMY"
     const channel = "channel1"
     const [users, setUsers] = useState([])
     const [localTracks, setLocalTracks] = useState([])
@@ -19,7 +19,7 @@ export default function VideoRoom() {
             setUsers(prev => [...prev, user])
         }
         if(mediaType === 'audio') {
-            user.audioTrack.play()
+            user.audioTrack?.play()
         }
     }
     function handleUserLeft(user) {
@@ -28,14 +28,35 @@ export default function VideoRoom() {
     useEffect(() => {
         client.on('user-published', handleUserJoined)
         client.on('user-left', handleUserLeft)
-        client.join(APP_ID, channel, APP_TOKEN, null)
-            .then(uid => Promise.all([AgoraRTC.createMicrophoneAndCameraTracks(), uid]))
-            .then(([tracks, uid]) => {
-                const [audioTrack, videoTrack] = tracks
-                setLocalTracks(tracks)
-                setUsers(prevUsers => [...prevUsers, {uid, videoTrack, audioTrack}])
-                client.publish(tracks)
-            })
+        
+        async function setupLocalTracks() {
+            try {
+              const uid = await client.join(APP_ID, channel, APP_TOKEN, null);
+              let tracks;
+      
+              try {
+                tracks = await AgoraRTC.createMicrophoneAndCameraTracks();
+              } catch (e) {
+                console.log("Error creating tracks:", e);
+                setError("No camera or microphone detected.");
+                return;
+              }
+      
+              const [audioTrack, videoTrack] = tracks;
+              setLocalTracks(tracks);
+              setUsers(prevUsers => [...prevUsers, { uid, videoTrack, audioTrack }]);
+              client.publish(tracks);
+            } catch (error) {
+              console.log("Error:", error);
+            }
+          }
+      
+        try {
+            setupLocalTracks();
+        }
+        catch(error) {
+            console.log("Add Microphone and Web Cam")
+        }
         return () => {
             for(let localTrack of localTracks) {
                 localTrack.stop()
