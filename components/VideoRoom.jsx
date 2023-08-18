@@ -1,0 +1,77 @@
+"use client"
+import AgoraRTC from 'agora-rtc-sdk-ng'
+import React, { useEffect, useState } from 'react'
+import VideoPlayer from './VideoPlayer'
+
+export default function VideoRoom() {
+    const APP_ID = "5df7d63fb30642108563623d6fbd3969"
+    const APP_TOKEN = "007eJxTYCj8wq116ulU/YndW27NejXhc0DBo6IJ3JvDw/iPNNX8+n1AgcE0Jc08xcw4LcnYwMzEyNDAwtTM2MzIOMUsLSnF2NLM0iX8fkpDICPDQ5EdTIwMEAjiczAkZyTm5aXmGDIwAACdcCMY"
+    const channel = "channel1"
+    const [users, setUsers] = useState([])
+    const [localTracks, setLocalTracks] = useState([])
+    const client = AgoraRTC.createClient({
+        mode : 'rtc',
+        codec : 'vp8'
+    }) 
+    async function handleUserJoined(user, mediaType) {
+        await client.subscribe(user, mediaType)
+        if(mediaType === 'video') {
+            setUsers(prev => [...prev, user])
+        }
+        if(mediaType === 'audio') {
+            user.audioTrack?.play()
+        }
+    }
+    function handleUserLeft(user) {
+        setUsers(users => users.filter(u => u.uid != user.uid))
+    }
+    useEffect(() => {
+        client.on('user-published', handleUserJoined)
+        client.on('user-left', handleUserLeft)
+        
+        async function setupLocalTracks() {
+            try {
+              const uid = await client.join(APP_ID, channel, APP_TOKEN, null);
+              let tracks;
+      
+              try {
+                tracks = await AgoraRTC.createMicrophoneAndCameraTracks();
+              } catch (e) {
+                console.log("Error creating tracks:", e);
+                setError("No camera or microphone detected.");
+                return;
+              }
+      
+              const [audioTrack, videoTrack] = tracks;
+              setLocalTracks(tracks);
+              setUsers(prevUsers => [...prevUsers, { uid, videoTrack, audioTrack }]);
+              client.publish(tracks);
+            } catch (error) {
+              console.log("Error:", error);
+            }
+          }
+      
+        try {
+            setupLocalTracks();
+        }
+        catch(error) {
+            console.log("Add Microphone and Web Cam")
+        }
+        return () => {
+            for(let localTrack of localTracks) {
+                localTrack.stop()
+                localTrack.close()
+            }
+            client.off('user-published', handleUserJoined)
+            client.off('user-left', handleUserLeft)
+            client.unpublish(localTracks).then(() => client.leave())
+        }
+    }, [])
+    return (
+        <div className='flex items-center justify-center space-x-4 rounded-md w-72 h-72'>
+        {
+            users.map(user => <VideoPlayer key={user.uid} user={user} />)
+        }
+        </div>
+    )
+}

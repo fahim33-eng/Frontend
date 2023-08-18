@@ -9,11 +9,24 @@ import { BsSend } from 'react-icons/bs'
 export default function page() {
   const [messages, setMessages] = useState([])
   const [messageContent, setMessageContent] = useState("")
-  const id = 1
-  function handleSubmit() {
-    setMessages([...messages, {id, content : messageContent, owner : "owner"}])
-    setMessageContent("")
-  }
+  const id = new Date().getTime().toString()
+  const url = `http://127.0.0.1:8000/?message=${messageContent}`
+  async function handleSubmit(e) {
+      const newMessage = { id, content: messageContent, owner: "owner" };
+      setMessages(prevMessages => [...prevMessages, newMessage])
+      const response = await fetch(url, {
+        method : "GET"
+      })
+      if (response.ok) {
+        let answer = await response.json()
+        setMessageContent("");
+        answer = answer["message"]
+        setMessages(prevMessages => [...prevMessages, {id, content: answer, owner: "ai"} ])
+      } else {
+        console.error("Failed to send message");
+      }
+    }
+  
   return (
     <main className="min-h-screen flex flex-col w-full bg-contain bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
       <nav className="bg-white"> 

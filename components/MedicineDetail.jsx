@@ -1,8 +1,26 @@
+"use client"
 import React, { useState } from 'react'
 import { Button } from './ui/button'
+import {useSetRecoilState } from 'recoil'
+import { cartItems } from '@/atom/globalVariables'
 
-export default function MedicineDetail({ medicineDetail }) {
+export default function MedicineDetail({ medicineDetail, cartItems, setCartItems }) {
     const [number, setNumber] = useState(0)
+    const [buttonClicked, setButtonClicked] = useState(false)
+
+    function handleAddToCart() {
+        if(!buttonClicked) {
+            if(number > 0) {
+                const price = medicineDetail.id * number
+                setCartItems([...cartItems, {...medicineDetail, number, price}])
+            }
+        }
+        else {
+            
+            setCartItems(cartItems.filter(item => item.id != medicineDetail.id))
+        }
+        setButtonClicked(prev => !prev)
+    }
   return (
     <div key={medicineDetail.id} className='flex justify-between items-center p-4 shadow-xl rounded-lg'>
         <div>
@@ -13,13 +31,15 @@ export default function MedicineDetail({ medicineDetail }) {
             <span className='text-sm px-4 py-2 rounded-full text-white bg-gray-500 my-2'><span className='font-semibold text-xl'>{medicineDetail.id}</span> BDT per piece </span>
         </div>
         <div className='flex space-x-4 text-xl '>
-            <p onClick={() => setNumber((prev) => prev - 1)} className='px-1 rounded-md border text-2xl border-black cursor-pointer'>-</p>
+            <p onClick={() => setNumber((prev) => prev > 0 ? prev - 1 : prev)} className='px-1 rounded-md border text-2xl border-black cursor-pointer'>-</p>
             <p className='text-xl font-semibold'>{number}</p>
             <p onClick={() => setNumber(prev => prev + 1)} className='px-1 rounded-md border border-black text-2xl cursor-pointer'>+</p>
         </div>
         <div className='space-y-2 flex flex-col items-center justify-center'>
             <h1>Total : <span className='font-bold text-lg'>{number * medicineDetail.id}</span> BDT</h1>
-            <Button className="bg-[#2699b6]">Add To Cart</Button>
+            <Button disabled={number == 0} onClick={() => {
+                handleAddToCart()
+            }} className={`${!buttonClicked ? "bg-[#2699b6]" : "bg-[#803131]"} w-48`}>{buttonClicked ? "Remove From Cart" : "Add To Cart"}</Button>
         </div>
     </div>
   )

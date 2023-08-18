@@ -1,19 +1,22 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { useState } from "react"
 import { AiOutlineCheck } from "react-icons/ai"
 import { BiSolidUpArrow } from "react-icons/bi"
 import { BiSolidDownArrow } from "react-icons/bi"
+import { useRouter } from 'next/navigation'
 
 export default function page() {
+  const router = useRouter()
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [phone, setPhone] = useState("")
   const [hospitalName, setHospitalName] = useState("")
-  const [selectedCity, setSelectedCity] = useState("")
+  const [selectedCity, setSelectedCity] = useState("dhaka")
   const [degrees, setDegrees] = useState("")
   const [description, setDescription] = useState("")
   const [sundayChecked, setSundayChecked] = useState(false);
@@ -38,7 +41,56 @@ export default function page() {
   const [endAMPM, setEndAMPM] = useState("PM");
   const [startOnlineAMPM, setStartOnlineAMPM] = useState("AM");
   const [endOnlineAMPM, setEndOnlineAMPM] = useState("PM");
+  const [image, setImage] = useState(null)
 
+  async function handleSubmit(e) {
+    let selectedDays = []
+    if (sundayChecked) selectedDays.push('Sunday');
+    if (mondayChecked) selectedDays.push('Monday');
+    if (tuesdayChecked) selectedDays.push('Tuesday');
+    if (wednesdayChecked) selectedDays.push('Wednesday');
+    if (thursdayChecked) selectedDays.push('Thursday');
+    if (fridayChecked) selectedDays.push('Friday');
+    if (saturdayChecked) selectedDays.push('Saturday');
+
+    let selectedOnlineDays = []
+    if (sundayOnlineChecked) selectedOnlineDays.push('Sunday');
+    if (mondayOnlineChecked) selectedOnlineDays.push('Monday');
+    if (tuesdayOnlineChecked) selectedOnlineDays.push('Tuesday');
+    if (wednesdayOnlineChecked) selectedOnlineDays.push('Wednesday');
+    if (thursdayOnlineChecked) selectedOnlineDays.push('Thursday');
+    if (fridayOnlineChecked) selectedOnlineDays.push('Friday');
+    if (saturdayOnlineChecked) selectedOnlineDays.push('Saturday');
+
+    let times = [parseInt(offlineStartingTime), parseInt(offlineEndingTime), parseInt(onlineStartingTime), parseInt(onlineEndingTime)]
+    e.preventDefault()
+    const data = {
+      appUser : {
+        firstName,
+        lastName,
+        email,
+        password,
+        contactNo : phone,
+      },
+      place : selectedCity,
+      currentHospital : hospitalName,
+      degrees,
+      bio : description,
+      days : selectedDays,
+      onlineDays : selectedOnlineDays,
+      times
+    }
+    console.log(data)
+    const endpoint = 'http://localhost:8080'
+    const response = await fetch(`${endpoint}/doctor_registration`, {
+      method: 'POST',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(data)
+    })
+    
+    const ans = await response.json()
+    console.log(ans)
+  }
 
   return (
     <main className="min h-screen overflow-y-scroll p-8 flex flex-col items-center bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">
@@ -66,7 +118,7 @@ export default function page() {
 
         <div className="space-x-4">
           <label className="my-4 bg-[#f0f0f0] space-x-4 shadow-md rounded-full px-4 py-2 text-gray-500" htmlFor="city">Which City Do You Practice Currently : </label>
-          <select id="city" onChange={e => setSelectedCity(e.target.value)} className="focus:outline-none text-start items-start px-6 py-2 rounded-full" name="city">
+          <select id="city" value={selectedCity} onChange={e => setSelectedCity(e.target.value)} className="focus:outline-none text-start items-start px-6 py-2 rounded-full" name="city">
             <option value="dhaka">Dhaka</option>
             <option value="chittagong">Chittagong</option>
             <option value="khulna">Khulna</option>
@@ -171,7 +223,15 @@ export default function page() {
           </div>
         </div>
       </div>
-      <Button className="text-2xl my-8 px-4 py-2 rounded-full">Submit</Button>
+      <div className='my-4 space-x-4 shadow-md rounded-lg px-4 py-2'>
+          <div className="flex justify-between space-x-8">
+            <label className="font-semibold" htmlFor="imageInput">Upload Your Image Here :</label>
+            <input className='h-full text-start focus:outline-none' onChange={e => setImage(e.target.files[0])} id="imageInput" type="file" placeholder="Upload Your Ambulance Image Here"/>
+            </div>
+          {image && <h1 className="my-4">Your Chosen Image : <img src={URL.createObjectURL(image)} className="h-16 w-16 rounded-md" alt="Preview" /></h1>}
+      </div>
+      <button onClick={handleSubmit} className="bg-black mt-4 text-white px-6 py-2 rounded-full shadow-md mx-auto">Submit</button>
+      
     </main>
   )
 }
