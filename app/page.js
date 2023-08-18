@@ -19,6 +19,7 @@ import UserCard from '@/components/UserCard'
 import UserCardCarousel from '@/components/UserCardCarousel'
 
 export default function Home() {
+  console.log(process.env.NEXT_PUBLIC_ENDPOINT)
 
   return (
     <main className="relative min-h-screen bg-gradient-to-r from-[#40a1ce] to-[#bfecfa]">

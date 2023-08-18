@@ -45,29 +45,42 @@ export default function page() {
 
   async function handleSubmit(e) {
     let selectedDays = []
-    if (sundayChecked) selectedDates.push("Sunday");
-    if (mondayChecked) selectedDates.push("Monday");
-    if (tuesdayChecked) selectedDates.push("Tuesday");
-    if (wednesdayChecked) selectedDates.push("Wednesday");
-    if (thursdayChecked) selectedDates.push("Thursday");
-    if (fridayChecked) selectedDates.push("Friday");
-    if (saturdayChecked) selectedDates.push("Saturday");
+    if (sundayChecked) selectedDays.push('Sunday');
+    if (mondayChecked) selectedDays.push('Monday');
+    if (tuesdayChecked) selectedDays.push('Tuesday');
+    if (wednesdayChecked) selectedDays.push('Wednesday');
+    if (thursdayChecked) selectedDays.push('Thursday');
+    if (fridayChecked) selectedDays.push('Friday');
+    if (saturdayChecked) selectedDays.push('Saturday');
 
+    let selectedOnlineDays = []
+    if (sundayOnlineChecked) selectedOnlineDays.push('Sunday');
+    if (mondayOnlineChecked) selectedOnlineDays.push('Monday');
+    if (tuesdayOnlineChecked) selectedOnlineDays.push('Tuesday');
+    if (wednesdayOnlineChecked) selectedOnlineDays.push('Wednesday');
+    if (thursdayOnlineChecked) selectedOnlineDays.push('Thursday');
+    if (fridayOnlineChecked) selectedOnlineDays.push('Friday');
+    if (saturdayOnlineChecked) selectedOnlineDays.push('Saturday');
+
+    let times = [parseInt(offlineStartingTime), parseInt(offlineEndingTime), parseInt(onlineStartingTime), parseInt(onlineEndingTime)]
     e.preventDefault()
     const data = {
-      firstName,
-      lastName,
-      email,
-      password,
-      contactNo : phone,
+      appUser : {
+        firstName,
+        lastName,
+        email,
+        password,
+        contactNo : phone,
+      },
       place : selectedCity,
       currentHospital : hospitalName,
-      degrees : [degrees],
+      degrees,
       bio : description,
-      availableDays : selectedDays,
-      availableTimes : []
-
+      days : selectedDays,
+      onlineDays : selectedOnlineDays,
+      times
     }
+    console.log(data)
     const endpoint = 'http://localhost:8080'
     const response = await fetch(`${endpoint}/doctor_registration`, {
       method: 'POST',

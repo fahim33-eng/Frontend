@@ -5,9 +5,7 @@ import VideoPlayer from './VideoPlayer'
 
 export default function VideoRoom() {
     const APP_ID = "5df7d63fb30642108563623d6fbd3969"
-    const APP_CERTIFICATE = process.env.AGORA_APP_CERTIFICATE
     const APP_TOKEN = "007eJxTYEjk2pgd8frk0trn2uz+1QtqfcJO1Qebbl1cy+WwZH04r4ECg2lKmnmKmXFakrGBmYmRoYGFqZmxmZFxillaUoqxpZllU8HtlIZARoaG6neMjAwQCOJzMCRnJOblpeYYMjAAAFzYH4E="
-    console.log(APP_ID)
     const channel = "channel1"
     const [users, setUsers] = useState([])
     const [localTracks, setLocalTracks] = useState([])
@@ -33,9 +31,9 @@ export default function VideoRoom() {
         client.join(APP_ID, channel, APP_TOKEN, null)
             .then(uid => Promise.all([AgoraRTC.createMicrophoneAndCameraTracks(), uid]))
             .then(([tracks, uid]) => {
-                const [audioTrack, VideoTrack] = tracks
+                const [audioTrack, videoTrack] = tracks
                 setLocalTracks(tracks)
-                setUsers(prevUsers => [...prevUsers, {uid, VideoTrack}])
+                setUsers(prevUsers => [...prevUsers, {uid, videoTrack, audioTrack}])
                 client.publish(tracks)
             })
         return () => {
